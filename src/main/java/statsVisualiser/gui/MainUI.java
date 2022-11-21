@@ -226,8 +226,8 @@ public class MainUI extends JFrame implements ActionListener {
 	 * @param country 
 	 */
 	private void createTimeSeries(String country, int startDate, int endDate, String analysisType, String chartType) {
-		SeriesGraph graph = new SeriesGraph(west, analysisType, country, startDate, endDate);
-		SeriesGraph graph1 = new SeriesGraph(west, "annual percentage change of PM2.5 air pollution & Forest area", country, startDate, endDate);
+		SeriesGraph graph = new SeriesGraph(west, analysisType, country, startDate, endDate, chartType);
+		SeriesGraph graph1 = new SeriesGraph(west, "annual percentage change of PM2.5 air pollution & Forest area", country, startDate, endDate, chartType);
 
 	}
 
