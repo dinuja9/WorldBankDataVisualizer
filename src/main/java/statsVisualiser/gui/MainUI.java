@@ -49,9 +49,12 @@ import org.jfree.data.xy.XYSeriesCollection;
  * @author Maulik Suryavanshi (217184615)
  * @author Dinuja Wattage (217564204)
  */
-public class MainUI extends JFrame  {
+public class MainUI extends JFrame implements ActionListener {
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;
+	Recalculate recButton;
+	private JPanel west;
+	
 	/*************************************************
 	 * FALL 2022
 	 * EECS 3311 GUI SAMPLE CODE
@@ -62,6 +65,11 @@ public class MainUI extends JFrame  {
 		// Set window title
 		super("Country Statistics");
 
+		int startDate = 0;
+		int endDate = 0;
+		String analysis = "";
+		String chart = "";
+		String country = "";
 		// Set top bar
 		JLabel chooseCountryLabel = new JLabel("Choose a country: ");
 		Vector<String> countriesNames = new Vector<String>();
@@ -76,6 +84,7 @@ public class MainUI extends JFrame  {
 		JLabel from = new JLabel("From");
 		JLabel to = new JLabel("To");
 		Vector<String> years = new Vector<String>();
+		years.add("Select");
 		for (int i = 2021; i >= 2010; i--) {
 			years.add("" + i);
 		}
@@ -125,40 +134,32 @@ public class MainUI extends JFrame  {
 		JPanel east = new JPanel();
 
 		// Set charts region
-		JPanel west = new JPanel();
+		west = new JPanel();
+		
 		west.setLayout(new GridLayout(2, 0));
 		
-
 		getContentPane().add(north, BorderLayout.NORTH);
 		getContentPane().add(east, BorderLayout.EAST);
 		getContentPane().add(south, BorderLayout.SOUTH);
 		getContentPane().add(west, BorderLayout.WEST);
-		int startDate = 0;
-		int endDate = 0;
-		String analysis = "";
-		String chart = "";
-		String country = "";
 		
-		country = (String) countriesList.getSelectedItem();;
-		startDate = Integer.parseInt((String)fromList.getSelectedItem());
-		endDate =  Integer.parseInt((String) toList.getSelectedItem());
-		analysis = (String) methodsList.getSelectedItem();
-		chart = (String) viewsList.getSelectedItem();
-		
-		// recalculate.addActionListener(this);
-		createTimeSeries(west, country, startDate, endDate, analysis, chart);
+		recButton = new Recalculate(country, startDate, endDate, analysis, recalculate, chart, countriesList,
+				fromList, toList, viewsList, methodsList);
+		// createTimeSeries("can", 2010, 2018, recButton.getAnalysis(), recButton.getChart());
 
+		// ACTION LISTENERS FOR EACH INTERACTIVE BUTTON/DROP DOWN
+		//SeriesGraph graph = new SeriesGraph(globalWest, "annual percentage change of PM2.5 air pollution & Forest area", "can", 2001, 2010);
+
+		recButton.getCountriesList().addActionListener(this);
+		recButton.getFromList().addActionListener(this);
+		recButton.getToList().addActionListener(this);
+		recButton.getViewsList().addActionListener(this);
+		recButton.getMethodsList().addActionListener(this);
+		recButton.getRecalculate().addActionListener(this);
+		
 		
 	}		
-	
 		
-	
-
-//	private void recalculate() {
-//		// TODO Auto-generated method stub
-//		System.out.println(" country: " + country +"\n start date: " +startDate +"\n end date: " + endDate + 
-//				"\n analysis: "+ analysis + "\n chart: "+chart);
-//	}
 	/**
 	 * Static factory method for MainUI.
 	 * @return instance of MainUI
@@ -224,10 +225,10 @@ public class MainUI extends JFrame  {
 	 * @param startDate 
 	 * @param country 
 	 */
-	private void createTimeSeries(JPanel west, String country, int startDate, int endDate, String analysisType, String chart) {
-		SeriesGraph threeSeries = new SeriesGraph(west, "3 series", country, startDate, endDate);
-		SeriesGraph TwoSeries = new SeriesGraph(west, "2 series"
-				+ "", country, startDate, endDate);
+	private void createTimeSeries(String country, int startDate, int endDate, String analysisType, String chartType) {
+		SeriesGraph graph = new SeriesGraph(west, analysisType, country, startDate, endDate);
+		SeriesGraph graph1 = new SeriesGraph(west, "annual percentage change of PM2.5 air pollution & Forest area", country, startDate, endDate);
+
 	}
 
 	/**
@@ -244,15 +245,36 @@ public class MainUI extends JFrame  {
 	 */
 	public static void Start(boolean b) {
 		JFrame frame = MainUI.getInstance();
-		frame.setSize(900, 600);
+		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.pack();
 		frame.setVisible(true);
 	}
+	
+	public void actionPerformed(ActionEvent e) {
+		// TODO Auto-generated method stub		
+		if(e.getSource()==recButton.getRecalculate()) {
+			createTimeSeries(recButton.getCountry(),recButton.getStartDate(),recButton.getEndDate(), recButton.getAnalysis(), recButton.getChart());
+		}
+		else if (e.getSource()==recButton.getCountriesList()) {
+			recButton.setCountry();
+			System.out.println(recButton.getCountry());
+		}
+		else if (e.getSource()==recButton.getFromList()) {
+			recButton.setStartDate();
+			System.out.println(recButton.getStartDate());
+		}
+		else if (e.getSource()==recButton.getToList()) {
+			recButton.setEndDate();
+			System.out.println(recButton.getEndDate());
+		}
+		else if (e.getSource()==recButton.getViewsList()) {
+			recButton.setChart();
+			System.out.println(recButton.getChart());
+		}
+		else {
+			recButton.setAnalysis(recButton.getAnalysis());
+			System.out.println(recButton.getAnalysis());
+		}
+	}
 
-//	public void actionPerformed(ActionEvent e) {
-//		// TODO Auto-generated method stub
-//		if(e.getSource()==recalculate) {
-//			createTimeSeries(west, country, startDate, endDate, analysis, chart);
-//		}
-//	}
 }

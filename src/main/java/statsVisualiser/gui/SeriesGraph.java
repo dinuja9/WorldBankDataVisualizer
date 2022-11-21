@@ -26,11 +26,11 @@ import org.jfree.data.time.Year;
 public class SeriesGraph {
 	
 	public SeriesGraph(JPanel west, String analysisType, String country, int startDate, int endDate) {
-		if(analysisType.equals("3 series")) {
-			create3Series(west, "can", 2001, 2018);
+		if(analysisType.equals("annual percentage change of CO2 emissions, Energy use & PM2.5 air pollution")) {
+			create3Series(west, country, startDate, endDate);
 		}
-		else if(analysisType.equals("2 series")) {
-			create2Series(west, "can", 2001, 2018);
+		else if(analysisType.equals("annual percentage change of PM2.5 air pollution & Forest area")) {
+			create2Series(west, country, startDate, endDate);
 		}
 	}
 	
