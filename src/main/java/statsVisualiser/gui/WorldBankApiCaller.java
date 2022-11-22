@@ -30,12 +30,14 @@ public class WorldBankApiCaller implements ApiCaller {
 	 * of those years.
 	 * @param valueOfYear
 	 * @param year
-	 * @param urlString
+	 * @param urlString2 
+	 * @param endDate 
+	 * @param startDate 
 	 */
-	public WorldBankApiCaller(ArrayList<Double> valueOfYear,ArrayList<Integer> year, String urlString) {
+	public WorldBankApiCaller(ArrayList<Double> valueOfYear,ArrayList<Integer> year, int startDate, int endDate, String country, String analysis) {
 		this.valueOfYear = valueOfYear;
 		this.year = year;
-		this.urlString = urlString;
+		this.urlString = "http://api.worldbank.org/v2/country/"+country+"/indicator/"+analysis+"?date="+startDate+":"+endDate+"&format=json";;
 	}
 	
 	/**
