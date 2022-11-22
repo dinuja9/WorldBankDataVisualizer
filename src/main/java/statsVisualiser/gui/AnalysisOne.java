@@ -14,6 +14,8 @@ public class AnalysisOne implements AnalysisInterface{
 	boolean scatterChart = false;
 	boolean report = false;
 	
+	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
+
 	JPanel west; 
 	String country; 
 	int startDate; 
@@ -28,8 +30,12 @@ public class AnalysisOne implements AnalysisInterface{
 		this.chart = chart;
 	}
 	
+	public AnalysisOne() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
-	public TimeSeriesCollection performAnalysis() {
+	public Object performAnalysis() {
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		
 		TimeSeries series1 = new TimeSeries("Annual % change of CO2 emissions"); 
@@ -89,6 +95,19 @@ public class AnalysisOne implements AnalysisInterface{
 		}
 		dataset.addSeries(series3);
 		return dataset;
+	}
+	
+	public Object getDataSet() {
+		TimeSeriesCollection datasetTemp = new TimeSeriesCollection();
+		return datasetTemp;
+	}
+	
+	public boolean[] getCharts() {
+		return this.charts;
+	}
+
+	public void update(boolean[] charts) {
+		this.charts = charts;
 	}
 
 }

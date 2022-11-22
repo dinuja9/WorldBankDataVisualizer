@@ -8,11 +8,11 @@ import org.jfree.data.time.Year;
 
 public class AnalysisTwo implements AnalysisInterface {
 	
-	boolean pieChart = false;
 	boolean lineChart = false;
-	boolean barChart = false;
 	boolean scatterChart = false;
 	boolean report = false;
+	
+	boolean [] charts = {false, lineChart, false, scatterChart, report};
 	
 	JPanel west; 
 	String country; 
@@ -28,8 +28,12 @@ public class AnalysisTwo implements AnalysisInterface {
 		this.chart = chart;
 	}
 
+	public AnalysisTwo() {
+		// TODO Auto-generated constructor stub
+	}
+
 	@Override
-	public TimeSeriesCollection performAnalysis() {
+	public Object performAnalysis() {
 		// TODO Auto-generated method stub
 		TimeSeriesCollection dataset = new TimeSeriesCollection();
 		
@@ -42,7 +46,7 @@ public class AnalysisTwo implements AnalysisInterface {
 		forestArea.fetchData();	
 		
 		// ADDING THE DATA ON THE DATASET FOR SERIES 1 AND 2
-		//percent change = (CurrentYearValue - LastYearValue)/LastYearValue * 100
+		// percent change = (CurrentYearValue - LastYearValue)/LastYearValue * 100
 		
 		for(int i = 1; i < airPolution.year.size(); i++){
 			double CurrentYearValue = airPolution.valueOfYear.get(i);
@@ -76,5 +80,19 @@ public class AnalysisTwo implements AnalysisInterface {
 		return dataset;
 		
 	}
+	
+	public Object getDataSet() {
+		TimeSeriesCollection datasetTemp = new TimeSeriesCollection();
+		return datasetTemp;
+	}
+	
+	public boolean[] getCharts() {
+		return this.charts;
+	}
+
+	public void update(boolean[] charts) {
+		this.charts = charts;
+	}
+	
 
 }

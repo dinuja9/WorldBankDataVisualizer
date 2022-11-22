@@ -1,7 +1,9 @@
 package statsVisualiser.gui;
 
-import org.jfree.data.time.TimeSeriesCollection;
-
 public interface AnalysisInterface {
-	public TimeSeriesCollection performAnalysis();
+	public Object performAnalysis();
+	public boolean[] getCharts();
+	public void update(boolean[] charts);
+	public Object getDataSet();
+
 }
