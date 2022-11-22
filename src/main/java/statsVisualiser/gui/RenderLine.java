@@ -17,19 +17,22 @@ import org.jfree.chart.plot.PlotOrientation;
 import org.jfree.chart.plot.XYPlot;
 import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
 import org.jfree.data.time.TimeSeriesCollection;
+import org.jfree.data.xy.XYDataset;
 
-public class Render {
-	TimeSeriesCollection dataset; 
+public class RenderLine implements RenderInterface{
+	Object dataset; 
 	private JPanel west;
+	String analysisType;
 	
-	public Render(TimeSeriesCollection dataset, JPanel west) {
+	public RenderLine(Object dataset, JPanel west, String analysisType) {
 		this.dataset = dataset;
 		this.west = west;
+		this.analysisType = analysisType;
 	}
 
 	public void visualize() {
 		// RENDER THE CHART
-		JFreeChart chart = ChartFactory.createXYLineChart("Analysis 2", "Year", "", this.dataset, PlotOrientation.VERTICAL,
+		JFreeChart chart = ChartFactory.createXYLineChart(this.analysisType, "Year", "", (XYDataset) this.dataset, PlotOrientation.VERTICAL,
 				true, true, false);
 
 		XYPlot plot = chart.getXYPlot();
