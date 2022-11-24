@@ -1,46 +1,22 @@
 package statsVisualiser.gui;
-import java.awt.BasicStroke;
+
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.Dimension;
-import java.awt.Font;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.Map;
 import java.util.Vector;
-
-import javax.swing.BorderFactory;
 import javax.swing.JButton;
 import javax.swing.JComboBox;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
-
-import org.jfree.chart.ChartFactory;
-import org.jfree.chart.ChartPanel;
-import org.jfree.chart.JFreeChart;
-import org.jfree.chart.axis.CategoryAxis;
-import org.jfree.chart.axis.DateAxis;
-import org.jfree.chart.axis.NumberAxis;
-import org.jfree.chart.block.BlockBorder;
-import org.jfree.chart.plot.CategoryPlot;
-import org.jfree.chart.plot.PlotOrientation;
-import org.jfree.chart.plot.XYPlot;
-import org.jfree.chart.renderer.category.BarRenderer;
-import org.jfree.chart.renderer.xy.XYItemRenderer;
-import org.jfree.chart.renderer.xy.XYLineAndShapeRenderer;
-import org.jfree.chart.renderer.xy.XYSplineRenderer;
-import org.jfree.chart.title.TextTitle;
-import org.jfree.chart.util.TableOrder;
-import org.jfree.data.category.DefaultCategoryDataset;
-import org.jfree.data.time.TimeSeries;
-import org.jfree.data.time.TimeSeriesCollection;
-import org.jfree.data.time.Year;
-import org.jfree.data.xy.XYSeries;
-import org.jfree.data.xy.XYSeriesCollection;
-
+import org.json.simple.JSONArray;
+import org.json.simple.JSONObject;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
+import java.io.*;
 /**
  * The main functionality of this class is to draw main application
  * 
@@ -55,13 +31,16 @@ public class MainUI extends JFrame implements ActionListener {
 	Recalculate recButton;
 	private JPanel west;
 	
+	public static JFrame frame;
 	/*************************************************
 	 * FALL 2022
 	 * EECS 3311 GUI SAMPLE CODE
 	 * ONLT AS A REFERENCE TO SEE THE USE OF THE jFree FRAMEWORK
 	 * THE CODE BELOW DOES NOT DEPICT THE DESIGN TO BE FOLLOWED 
+	 * @throws IOException 
+	 * @throws ParseException 
 	 */
-	private MainUI() {
+	private MainUI() throws IOException, ParseException  {
 		// Set window title
 		super("Country Statistics");
 
@@ -73,12 +52,22 @@ public class MainUI extends JFrame implements ActionListener {
 		// Set top bar
 		JLabel chooseCountryLabel = new JLabel("Choose a country: ");
 		Vector<String> countriesNames = new Vector<String>();
-		countriesNames.add("USA");
-		countriesNames.add("Canada");
-		countriesNames.add("France");
-		countriesNames.add("China");
-		countriesNames.add("Brazil");
+		
+		// OPEN CLOSE PRINCIPLE FOR COUNTRIES IS SATIFIED
+		JSONArray allCountries = new JSONArray();
+		JSONParser parse = new JSONParser();
+		
+		FileReader countryFile =  new FileReader("countries.JSON");
+		allCountries = (JSONArray) parse.parse(countryFile);
+		countryFile.close();
+		
+		for(int i = 0; i< allCountries.size(); i++) {
+			JSONObject obj1 = new JSONObject((Map) allCountries.get(i));
+			countriesNames.add((String) obj1.get("Country"));	
+		}
 		countriesNames.sort(null);
+		///////////////////////////////////////////////////////
+		
 		JComboBox<String> countriesList = new JComboBox<String>(countriesNames);
 
 		JLabel from = new JLabel("From");
@@ -105,6 +94,7 @@ public class MainUI extends JFrame implements ActionListener {
 		JLabel viewsLabel = new JLabel("Available Views: ");
 
 		Vector<String> viewsNames = new Vector<String>();
+		viewsNames.add("Select");
 		viewsNames.add("Pie Chart");
 		viewsNames.add("Line Chart");
 		viewsNames.add("Bar Chart");
@@ -117,9 +107,16 @@ public class MainUI extends JFrame implements ActionListener {
 		JLabel methodLabel = new JLabel("        Choose analysis method: ");
 
 		Vector<String> methodsNames = new Vector<String>();
-		methodsNames.add("annual percentage change of CO2 emissions, Energy use & PM2.5 air pollution");
-		methodsNames.add("annual percentage change of PM2.5 air pollution & Forest area");
-
+		methodsNames.add("Select");
+		methodsNames.add("Annual percentage change of CO2 emissions, Energy use & PM2.5 air pollution");
+		methodsNames.add("Annual percentage change of PM2.5 air pollution & Forest area");
+		methodsNames.add("Ratio of CO2 emissions and GDP per capita");
+		methodsNames.add("Average Forest area (as % of land area)");
+		methodsNames.add("Government Expenditure: Education vs Other");
+		methodsNames.add("Health Expenditure vs Hospital Beds/1000 People");
+		methodsNames.add("Problems in accessing health care vs Infant mortality rate (per 1,000 live births)");
+		methodsNames.add("Annual percentage change Government expenditure on education and current health expenditure");
+		
 		JComboBox<String> methodsList = new JComboBox<String>(methodsNames);
 		JPanel south = new JPanel();
 		south.add(viewsLabel);
@@ -144,78 +141,31 @@ public class MainUI extends JFrame implements ActionListener {
 		getContentPane().add(west, BorderLayout.WEST);
 		
 		recButton = new Recalculate(country, startDate, endDate, analysis, recalculate, chart, countriesList,
-				fromList, toList, viewsList, methodsList);
-		// createTimeSeries("can", 2010, 2018, recButton.getAnalysis(), recButton.getChart());
-
-		// ACTION LISTENERS FOR EACH INTERACTIVE BUTTON/DROP DOWN
-		//SeriesGraph graph = new SeriesGraph(globalWest, "annual percentage change of PM2.5 air pollution & Forest area", "can", 2001, 2010);
-
+				fromList, toList, viewsList, methodsList, addView, removeView);
+		// ACTION LISTENERS
 		recButton.getCountriesList().addActionListener(this);
 		recButton.getFromList().addActionListener(this);
 		recButton.getToList().addActionListener(this);
 		recButton.getViewsList().addActionListener(this);
 		recButton.getMethodsList().addActionListener(this);
 		recButton.getRecalculate().addActionListener(this);
-		
+		recButton.getAddView().addActionListener(this);
+		recButton.getRemoveView().addActionListener(this);
 		
 	}		
 		
 	/**
 	 * Static factory method for MainUI.
 	 * @return instance of MainUI
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	public static MainUI getInstance() {
+	public static MainUI getInstance() throws IOException, ParseException {
 		if (instance == null)
 			instance = new MainUI();
 
 		return instance;
 	}
-	/**
-	 * Calls methods to draw charts on panel.
-	 * @param west is the destination for these methods to draw on
-	 */
-	private void createCharts(JPanel west) {
-	}
-
-	/**
-	 * Draws report to frame.
-	 * @param west is the destination panel
-	 */
-	private void createReport(JPanel west) {
-		Report report = new Report(west);
-	}
-
-	/**
-	 * Draws scatter chart to frame.
-	 * @param west is the destination panel
-	 */
-	private void createScatter(JPanel west) {
-	}
-
-	/**
-	 * Draws pie chart to frame.
-	 * @param west is the destination panel
-	 */
-	private void createPie(JPanel west) {
-
-	}
-
-	/**
-	 * Draws bar chart to frame.
-	 * @param west is the destination panel
-	 */
-	private void createBar(JPanel west) {
-		
-	}
-
-	/**
-	 * Draws line chart to frame.
-	 * @param west is the destination panel
-	 */
-	private void createLine(JPanel west) {
-
-	}
-
 	/**
 	 * Draws time series chart to frame.
 	 * @param west is the destination panel
@@ -226,25 +176,20 @@ public class MainUI extends JFrame implements ActionListener {
 	 * @param country 
 	 */
 	private void createTimeSeries(String country, int startDate, int endDate, String analysisType, String chartType) {
-		SeriesGraph graph = new SeriesGraph(west, analysisType, country, startDate, endDate, chartType);
-		SeriesGraph graph1 = new SeriesGraph(west, "annual percentage change of PM2.5 air pollution & Forest area", country, startDate, endDate, chartType);
-
+		SeriesGraph graph = new SeriesGraph(analysisType, chartType);
+		AnalysisFactory factory = new AnalysisFactory();
+		AnalysisInterface a1 = factory.createAnalysis(analysisType);
+		graph.setAnalysis(a1);
+		graph.executeStrategy(west, country, startDate, endDate, chartType);
 	}
-
-	/**
-	 * Main method to initialize the login section.
-	 * @param args
-	 */
-	public static void main(String[] args) {
-		LoginGUI log = new LoginGUI();
-	}
-
 	/**
 	 * Gets instance of MainUI in order to start application. 
 	 * @param b determines if application is able to start or not
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	public static void Start(boolean b) {
-		JFrame frame = MainUI.getInstance();
+	public static void Start(boolean b) throws IOException, ParseException {
+		frame = MainUI.getInstance();
 		frame.setPreferredSize(new Dimension(1200, 800));
 		frame.pack();
 		frame.setVisible(true);
@@ -254,6 +199,7 @@ public class MainUI extends JFrame implements ActionListener {
 		// TODO Auto-generated method stub		
 		if(e.getSource()==recButton.getRecalculate()) {
 			createTimeSeries(recButton.getCountry(),recButton.getStartDate(),recButton.getEndDate(), recButton.getAnalysis(), recButton.getChart());
+			frame.pack();
 		}
 		else if (e.getSource()==recButton.getCountriesList()) {
 			recButton.setCountry();
@@ -270,6 +216,15 @@ public class MainUI extends JFrame implements ActionListener {
 		else if (e.getSource()==recButton.getViewsList()) {
 			recButton.setChart();
 			System.out.println(recButton.getChart());
+		}
+		// ADD VIEW BUTTON
+		else if (e.getSource()==recButton.getAddView()) {
+			 
+			System.out.println();
+		}
+		// REMOVE VIEW BUTTON
+		else if (e.getSource()==recButton.getRemoveView()) {
+			
 		}
 		else {
 			recButton.setAnalysis(recButton.getAnalysis());

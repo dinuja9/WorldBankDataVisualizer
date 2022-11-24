@@ -3,6 +3,8 @@ import java.awt.event.*;
 import java.io.IOException;
 import javax.swing.*;
 
+import org.json.simple.parser.ParseException;
+
 /**
  * The main functionality of this class is to set up the frame in order
  * to take the username and password of the user.
@@ -81,8 +83,10 @@ public class LoginGUI extends JFrame implements ActionListener{
 
 	/**
 	 * Displays error message window if login credentials are invalid
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	private void openError() {
+	private void openError() throws IOException, ParseException {
 		JOptionPane.showMessageDialog(null, "Incorrect Username and/or Password!");
 	// THESE 2 LINES WERE ADDED TO JUST RUN THE GUI NO MATTER WHAT THE USERNAME AND PASSWORD ENTERED WAS
 		LFrame.setVisible(false);
@@ -92,8 +96,10 @@ public class LoginGUI extends JFrame implements ActionListener{
 	/**
 	 * Displays successful login message and takes user to main 
 	 * application if login credentials are valid.
+	 * @throws ParseException 
+	 * @throws IOException 
 	 */
-	private void openMainApp() {
+	private void openMainApp() throws IOException, ParseException {
 		JOptionPane.showMessageDialog(null, "Correct Username and/or Password!");
 		LFrame.setVisible(false);
 		MainUI.Start(true);
