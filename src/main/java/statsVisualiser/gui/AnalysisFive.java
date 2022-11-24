@@ -15,29 +15,13 @@ public class AnalysisFive implements AnalysisInterface {
 	
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
 
-	JPanel west; 
-	String country; 
-	int startDate; 
-	int endDate; 
-	String chart;
-	
-	public AnalysisFive(JPanel west, String country, int startDate, int endDate, String chart) {
-		this.west = west;
-		this.country = country;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.chart = chart;
-	}
-	
-	public AnalysisFive() {
-		// TODO Auto-generated constructor stub
-	}
+	DefaultCategoryDataset dataset;
 
 	@Override
-	public Object performAnalysis() {
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType) {
 		
-		DefaultCategoryDataset dataset = new DefaultCategoryDataset();
-		GetData expenditure = new GetData("SE.XPD.TOTL.GD.ZS", this.startDate, this.endDate, this.country);
+		this.dataset = new DefaultCategoryDataset();
+		GetData expenditure = new GetData("SE.XPD.TOTL.GD.ZS", startDate, endDate, country);
 		expenditure.fetchData();
 
 		double education = 0.0;
@@ -49,21 +33,18 @@ public class AnalysisFive implements AnalysisInterface {
 		education = sum / (double) expenditure.valueOfYear.size();
 		otherExp = 100.0 - education;
 
-		dataset.addValue(education, "Education", "Expenditure");
-		dataset.addValue(otherExp, "Other", "Expenditure");
-		return dataset;
+		this.dataset.addValue(education, "Education", "Expenditure");
+		this.dataset.addValue(otherExp, "Other", "Expenditure");
 	}
 	public Object getDataSet() {
-		DefaultCategoryDataset datasetTemp = new DefaultCategoryDataset();
-		return datasetTemp;
+		return this.dataset;
 	}
 
 	public boolean[] getCharts() {
 		return this.charts;
 	}
 
-	public void update(boolean[] charts) {
+	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
 	}
-
 }

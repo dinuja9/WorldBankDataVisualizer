@@ -13,30 +13,13 @@ public class AnalysisOne implements AnalysisInterface{
 	boolean barChart = false;
 	boolean scatterChart = false;
 	boolean report = false;
+	public TimeSeriesCollection dataset;
 	
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
 
-	JPanel west; 
-	String country; 
-	int startDate; 
-	int endDate; 
-	String chart;
-	
-	public AnalysisOne(JPanel west, String country, int startDate, int endDate, String chart) {
-		this.west = west;
-		this.country = country;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.chart = chart;
-	}
-	
-	public AnalysisOne() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
-	public Object performAnalysis() {
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+	public void performAnalysis (JPanel west, String country, int startDate, int endDate, String chartType) {
+		this.dataset = new TimeSeriesCollection();
 		
 		TimeSeries series1 = new TimeSeries("Annual % change of CO2 emissions"); 
 		GetData CO2Emissions = new GetData("EN.ATM.CO2E.PC", startDate-1, endDate, country);
@@ -64,7 +47,7 @@ public class AnalysisOne implements AnalysisInterface{
 				System.out.println("CO2 emissions =>" + CO2Emissions.year.get(i) + " : " + percentChange);
 			}
 		}
-		dataset.addSeries(series1);
+		this.dataset.addSeries(series1);
 		
 		for(int i = 1; i < NRG.year.size(); i++) {
 			double CurrentYearValue = NRG.valueOfYear.get(i-1);
@@ -78,7 +61,7 @@ public class AnalysisOne implements AnalysisInterface{
 			System.out.println("NRG" + percentChange + "=>" + CurrentYearValue + " : " + LastYearValue);
 			}
 		}
-		dataset.addSeries(series2);
+		this.dataset.addSeries(series2);
 		
 		for(int i = 1; i < airPolution.year.size(); i++) {
 			double CurrentYearValue = airPolution.valueOfYear.get(i);
@@ -93,20 +76,18 @@ public class AnalysisOne implements AnalysisInterface{
 			System.out.println("air pol =>" + airPolution.year.get(i) + " : "+LastYearValue +"=>"+CurrentYearValue);
 			
 		}
-		dataset.addSeries(series3);
-		return dataset;
+		this.dataset.addSeries(series3);
 	}
 	
 	public Object getDataSet() {
-		TimeSeriesCollection datasetTemp = new TimeSeriesCollection();
-		return datasetTemp;
+		return this.dataset;
 	}
 	
 	public boolean[] getCharts() {
 		return this.charts;
 	}
 
-	public void update(boolean[] charts) {
+	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
 	}
 

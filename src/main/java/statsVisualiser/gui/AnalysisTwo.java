@@ -13,29 +13,13 @@ public class AnalysisTwo implements AnalysisInterface {
 	boolean report = false;
 	
 	boolean [] charts = {false, lineChart, false, scatterChart, report};
+	TimeSeriesCollection dataset;
 	
-	JPanel west; 
-	String country; 
-	int startDate; 
-	int endDate; 
-	String chart;
 	
-	public AnalysisTwo(JPanel west, String country, int startDate, int endDate, String chart) {
-		this.west = west;
-		this.country = country;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.chart = chart;
-	}
-
-	public AnalysisTwo() {
-		// TODO Auto-generated constructor stub
-	}
-
 	@Override
-	public Object performAnalysis() {
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType) {
 		// TODO Auto-generated method stub
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		this.dataset = new TimeSeriesCollection();
 		
 		TimeSeries series1 = new TimeSeries("Annual % change of PM2.5 air pollution");
 		GetData airPolution = new GetData("EN.ATM.PM25.MC.M3", (startDate)-1, endDate, country);
@@ -61,7 +45,7 @@ public class AnalysisTwo implements AnalysisInterface {
 			System.out.println("air pol =>" + airPolution.year.get(i) + " : "+LastYearValue +"=>"+CurrentYearValue);
 			
 		}
-		dataset.addSeries(series1);
+		this.dataset.addSeries(series1);
 		
 		for(int i = 1; i < forestArea.year.size(); i++) {
 			double CurrentYearValue = forestArea.valueOfYear.get(i);
@@ -76,23 +60,19 @@ public class AnalysisTwo implements AnalysisInterface {
 			System.out.println("forest area =>" + forestArea.year.get(i) + " : "+LastYearValue +"=>"+CurrentYearValue);
 			
 		}
-		dataset.addSeries(series2);
-		return dataset;
-		
+		this.dataset.addSeries(series2);		
 	}
 	
 	public Object getDataSet() {
-		TimeSeriesCollection datasetTemp = new TimeSeriesCollection();
-		return datasetTemp;
+		return this.dataset;
 	}
 	
 	public boolean[] getCharts() {
 		return this.charts;
 	}
 
-	public void update(boolean[] charts) {
+	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
 	}
-	
 
 }

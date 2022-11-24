@@ -1,9 +1,11 @@
 package statsVisualiser.gui;
 
+import javax.swing.JPanel;
+
 public interface AnalysisInterface {
-	public Object performAnalysis();
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType);
 	public boolean[] getCharts();
-	public void update(boolean[] charts);
+	public void updateCharts(boolean[] charts);
 	public Object getDataSet();
 
 }

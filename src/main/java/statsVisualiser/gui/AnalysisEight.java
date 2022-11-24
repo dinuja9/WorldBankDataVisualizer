@@ -15,34 +15,18 @@ public class AnalysisEight implements AnalysisInterface{
 	boolean report = false;
 	
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
+	TimeSeriesCollection dataset;
 
-	JPanel west; 
-	String country; 
-	int startDate; 
-	int endDate; 
-	String chart;
-	
-	public AnalysisEight(JPanel west, String country, int startDate, int endDate, String chart) {
-		this.west = west;
-		this.country = country;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.chart = chart;
-	}
-	
-	public AnalysisEight() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public Object performAnalysis() {
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+	public void performAnalysis (JPanel west, String country, int startDate, int endDate, String chartType) {
+		this.dataset = new TimeSeriesCollection();
 		
 		TimeSeries series1 = new TimeSeries("Government expenditure on education, total (% of GDP)");
-		GetData govt_exp_edu = new GetData("SE.XPD.TOTL.GD.ZS", this.startDate, this.endDate, this.country);
+		GetData govt_exp_edu = new GetData("SE.XPD.TOTL.GD.ZS", startDate, endDate, country);
 		govt_exp_edu.fetchData();
 		
 		TimeSeries series2 = new TimeSeries("Current health expenditure (% of GDP)"); 
-		GetData health_exp = new GetData("SH.XPD.CHEX.GD.ZS", this.startDate, this.endDate, this.country);
+		GetData health_exp = new GetData("SH.XPD.CHEX.GD.ZS", startDate, endDate, country);
 		health_exp.fetchData();
 		
 		
@@ -60,7 +44,7 @@ public class AnalysisEight implements AnalysisInterface{
 	        }
 	        System.out.println(percentChange);
 		}
-		dataset.addSeries(series1);
+		this.dataset.addSeries(series1);
 		
 		
 		for(int i = health_exp.year.size()-1; i > 1; i--) {
@@ -77,21 +61,19 @@ public class AnalysisEight implements AnalysisInterface{
 	        }
 
 		}
-		dataset.addSeries(series2);
-		return dataset;
+		this.dataset.addSeries(series2);
 	}
 	
 	@Override
 	public Object getDataSet() {
-		TimeSeriesCollection datasetTemp = new TimeSeriesCollection();
-		return datasetTemp;
+		return this.dataset;
 	}
 	
 	public boolean[] getCharts() {
 		return this.charts;
 	}
 
-	public void update(boolean[] charts) {
+	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
 	}
 	

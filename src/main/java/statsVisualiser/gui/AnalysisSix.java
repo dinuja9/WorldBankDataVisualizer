@@ -15,28 +15,13 @@ public class AnalysisSix implements AnalysisInterface{
 	boolean report = false;
 	
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
-
-	JPanel west; 
-	String country; 
-	int startDate; 
-	int endDate; 
-	String chart;
 	
-	public AnalysisSix(JPanel west, String country, int startDate, int endDate, String chart) {
-		this.west = west;
-		this.country = country;
-		this.startDate = startDate;
-		this.endDate = endDate;
-		this.chart = chart;
-	}
+	TimeSeriesCollection dataset;
 	
-	public AnalysisSix() {
-		// TODO Auto-generated constructor stub
-	}
 
-	public Object performAnalysis() {
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType) {
 		// TODO Auto-generated method stub
-		TimeSeriesCollection dataset = new TimeSeriesCollection();
+		this.dataset = new TimeSeriesCollection();
 		TimeSeries series1 = new TimeSeries("Hospital Beds vs Health Expenditure");
 		GetData beds = new GetData("SH.MED.BEDS.ZS", 2001, 2020, "can");
 		GetData health = new GetData("SH.XPD.CHEX.PC.CD", 2001, 2020, "can");
@@ -49,20 +34,18 @@ public class AnalysisSix implements AnalysisInterface{
 				double ratio = hSpent / beds.valueOfYear.get(i);
 				series1.add(new Year(beds.year.get(i)), ratio);
 			}
-		dataset.addSeries(series1);
-		return dataset;
+		this.dataset.addSeries(series1);
 	}
 
 	public Object getDataSet() {
-		TimeSeriesCollection datasetTemp = new TimeSeriesCollection();
-		return datasetTemp;
+		return this.dataset;
 	}
 
 	public boolean[] getCharts() {
 		return this.charts;
 	}
 
-	public void update(boolean[] charts) {
+	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
 	}
 
