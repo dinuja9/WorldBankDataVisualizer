@@ -35,30 +35,8 @@ public class RenderReport implements RenderInterface {
 
 		ReportInterface repo = new ReportAdapter();	
 		AnalysisInterface a1 = repo.getAnalysisType(this.analysisType);
-		Object dataset2 = repo.convertData(this.dataset, a1);		 
+		Object dataset2 = repo.convertData(this.dataset, a1);		 		
 		
-		if(dataset2 instanceof TimeSeriesCollection) {
-			TimeSeriesCollection dataset3 = new TimeSeriesCollection();
-			dataset3 = (TimeSeriesCollection) this.dataset;
-			if(dataset3.getSeriesCount() == 0) 
-				reportMessage = "Not retrieving the right dataset";
-			else
-				reportMessage = "Count: " + dataset3.getSeriesCount();
-			//	reportMessage += s.getItems().get(i);
-			
-		}
-		else {
-			DefaultCategoryDataset dataset4 = new DefaultCategoryDataset();
-			dataset4 = (DefaultCategoryDataset) this.dataset;
-			if(dataset4.getColumnCount() == 0) 
-				reportMessage = "Not retrieving the right dataset";
-			else
-				reportMessage = "Count: " + dataset4.getColumnCount();
-			for(int i = 0; i < dataset4.getRowCount(); i++) {
-				System.out.println(dataset4.getRowCount());
-			}
-		
-		}
 	
 		
 		
@@ -69,9 +47,9 @@ public class RenderReport implements RenderInterface {
 //				+ "Year 2016:\n" + "\tMortality/1000 births => 5.8\n" + "\tHealth Expenditure per Capita => 9877\n"
 //				+ "\tHospital Beds/1000 people => 2.77\n";		
 
-		report.setText(reportMessage);
-		JScrollPane outputScrollPane = new JScrollPane(report);
-		west.add(outputScrollPane);
+//		report.setText(reportMessage);
+//		JScrollPane outputScrollPane = new JScrollPane(report);
+//		west.add(outputScrollPane);
 
 	}
 

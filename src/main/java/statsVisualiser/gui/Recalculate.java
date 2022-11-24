@@ -18,10 +18,12 @@ public class Recalculate {
 	JComboBox<String> viewsList;
 	JComboBox<String> methodsList;
 	JButton recalculate;
+	JButton addView; 
+	JButton removeView;
 
 	public Recalculate(String country, int startDate, int endDate, String analysis, JButton recalculate, String chart, JComboBox<String> countriesList,
 			JComboBox<String> fromList, JComboBox<String> toList, 
-			JComboBox<String> viewsList, JComboBox<String> methodsList) {
+			JComboBox<String> viewsList, JComboBox<String> methodsList, JButton addView, JButton removeView) {
 		this.country = country;
 		this.analysis = analysis;
 		this.endDate = endDate;
@@ -34,6 +36,24 @@ public class Recalculate {
 		this.viewsList = viewsList;
 		this.methodsList = methodsList; 
 		this.recalculate = recalculate;
+		this.addView = addView;
+		this.removeView = removeView;
+	}
+
+	public JButton getAddView() {
+		return addView;
+	}
+
+	public void setAddView(JButton addView) {
+		this.addView = addView;
+	}
+
+	public JButton getRemoveView() {
+		return removeView;
+	}
+
+	public void setRemoveView(JButton removeView) {
+		this.removeView = removeView;
 	}
 
 	public String getCountry() {
