@@ -1,5 +1,7 @@
 package statsVisualiser.gui;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import org.jfree.data.time.TimeSeries;
@@ -14,12 +16,13 @@ public class AnalysisOne implements AnalysisInterface{
 	boolean scatterChart = false;
 	boolean report = false;
 	public TimeSeriesCollection dataset;
-	
+	public ArrayList<String> dataReport;
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
 
 	@Override
 	public void performAnalysis (JPanel west, String country, int startDate, int endDate, String chartType) {
 		this.dataset = new TimeSeriesCollection();
+		this.dataReport = new ArrayList<String>();
 		
 		TimeSeries series1 = new TimeSeries("Annual % change of CO2 emissions"); 
 		GetData CO2Emissions = new GetData("EN.ATM.CO2E.PC", startDate-1, endDate, country);
@@ -39,29 +42,33 @@ public class AnalysisOne implements AnalysisInterface{
 			double CurrentYearValue = CO2Emissions.valueOfYear.get(i);
 			double LastYearValue = CO2Emissions.valueOfYear.get(i-1);
 			double percentChange = (CurrentYearValue - LastYearValue)/LastYearValue*100;
-			if(Double.isNaN(percentChange) || Double.isInfinite(percentChange)) {
+			if(Double.isNaN(percentChange) || Double.isInfinite(percentChange) || CurrentYearValue==0.0) {
 				continue;
-			}
+			} 
 			else {
 				series1.add(new Year(CO2Emissions.year.get(i)), percentChange);
-				System.out.println("CO2 emissions =>" + CO2Emissions.year.get(i) + " : " + percentChange);
+				this.dataReport.add("CO2 emissions % change: " + CO2Emissions.year.get(i) + " => " + percentChange);
+				System.out.println("CO2 emissions % change: " + CO2Emissions.year.get(i) + " => " + percentChange);
 			}
 		}
 		this.dataset.addSeries(series1);
+		this.dataReport.add("\n");
 		
 		for(int i = 1; i < NRG.year.size(); i++) {
-			double CurrentYearValue = NRG.valueOfYear.get(i-1);
-			double LastYearValue = NRG.valueOfYear.get(i);
+			double CurrentYearValue = NRG.valueOfYear.get(i);
+			double LastYearValue = NRG.valueOfYear.get(i-1);
 			double percentChange = (CurrentYearValue - LastYearValue)/LastYearValue*100;
-			if(Double.isNaN(percentChange) || Double.isInfinite(percentChange)) {
+			if(Double.isNaN(percentChange) || Double.isInfinite(percentChange) || CurrentYearValue==0.0) {
 				continue;
 			}
 			else {
-			series2.add(new Year(NRG.year.get(i)), percentChange);
-			System.out.println("NRG" + percentChange + "=>" + CurrentYearValue + " : " + LastYearValue);
+				series2.add(new Year(NRG.year.get(i)), percentChange);
+				this.dataReport.add("Energy use % change: " + NRG.year.get(i) + " => " + percentChange);
+				System.out.println("Energy use % change: " + NRG.year.get(i) + " => " + percentChange);
 			}
 		}
 		this.dataset.addSeries(series2);
+		this.dataReport.add("\n");
 		
 		for(int i = 1; i < airPolution.year.size(); i++) {
 			double CurrentYearValue = airPolution.valueOfYear.get(i);
@@ -71,10 +78,10 @@ public class AnalysisOne implements AnalysisInterface{
 				continue;
 			}
 			else {
-			series3.add(new Year(airPolution.year.get(i)), percentChange);
-			}
-			System.out.println("air pol =>" + airPolution.year.get(i) + " : "+LastYearValue +"=>"+CurrentYearValue);
-			
+				series3.add(new Year(airPolution.year.get(i)), percentChange);
+				this.dataReport.add("airPolution: " + airPolution.year.get(i) + " => " + percentChange);
+				System.out.println("airPolution: " + airPolution.year.get(i) + " => " + percentChange);
+			}			
 		}
 		this.dataset.addSeries(series3);
 	}
@@ -89,6 +96,11 @@ public class AnalysisOne implements AnalysisInterface{
 
 	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
+	}
+
+	@Override
+	public ArrayList<String> getReport() {
+		return this.dataReport;
 	}
 
 }

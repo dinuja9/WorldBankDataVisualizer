@@ -1,5 +1,7 @@
 package statsVisualiser.gui;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import org.jfree.data.time.TimeSeries;
@@ -13,7 +15,7 @@ public class AnalysisSix implements AnalysisInterface{
 	boolean barChart = false;
 	boolean scatterChart = false;
 	boolean report = false;
-	
+	public ArrayList<String> dataReport;
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
 	
 	TimeSeriesCollection dataset;
@@ -22,6 +24,8 @@ public class AnalysisSix implements AnalysisInterface{
 	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType) {
 		// TODO Auto-generated method stub
 		this.dataset = new TimeSeriesCollection();
+		this.dataReport = new ArrayList<String>();
+		
 		TimeSeries series1 = new TimeSeries("Hospital Beds vs Health Expenditure");
 		GetData beds = new GetData("SH.MED.BEDS.ZS", 2001, 2020, "can");
 		GetData health = new GetData("SH.XPD.CHEX.PC.CD", 2001, 2020, "can");
@@ -32,9 +36,16 @@ public class AnalysisSix implements AnalysisInterface{
 		for(int i = 0; i < beds.valueOfYear.size(); i++) {
 				hSpent = health.valueOfYear.get(i) / 1000.0;
 				double ratio = hSpent / beds.valueOfYear.get(i);
-				series1.add(new Year(beds.year.get(i)), ratio);
-			}
+				if(Double.isNaN(ratio)) {
+					continue;
+				}
+				else {
+					series1.add(new Year(beds.year.get(i)), ratio);
+					this.dataReport.add("health expidenture/hospital beds: " + beds.year.get(i) + " => " + ratio);
+				}
+		}
 		this.dataset.addSeries(series1);
+		this.dataReport.add("\n");
 	}
 
 	public Object getDataSet() {
@@ -47,6 +58,12 @@ public class AnalysisSix implements AnalysisInterface{
 
 	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
+	}
+
+	@Override
+	public ArrayList<String> getReport() {
+		// TODO Auto-generated method stub
+		return this.dataReport;
 	}
 
 }
