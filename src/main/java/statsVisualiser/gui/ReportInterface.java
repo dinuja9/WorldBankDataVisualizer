@@ -1,8 +1,9 @@
 package statsVisualiser.gui;
 
+import java.util.ArrayList;
+
 public interface ReportInterface {
 	
-	public Object convertData(Object dataset, AnalysisInterface analysis);
-
-	AnalysisInterface getAnalysisType(String analysisType);
+	public String writeReport(ArrayList<String> dataReport, String analysisType);
+	
 }
