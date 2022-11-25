@@ -1,5 +1,7 @@
 package statsVisualiser.gui;
 
+import java.util.ArrayList;
+
 import javax.swing.JPanel;
 
 import org.jfree.data.time.TimeSeries;
@@ -16,10 +18,11 @@ public class AnalysisEight implements AnalysisInterface{
 	
 	boolean [] charts = {pieChart, lineChart, barChart, scatterChart, report};
 	TimeSeriesCollection dataset;
-
+	public ArrayList<String> dataReport;
 
 	public void performAnalysis (JPanel west, String country, int startDate, int endDate, String chartType) {
 		this.dataset = new TimeSeriesCollection();
+		this.dataReport = new  ArrayList<String>();
 		
 		TimeSeries series1 = new TimeSeries("Government expenditure on education, total (% of GDP)");
 		GetData govt_exp_edu = new GetData("SE.XPD.TOTL.GD.ZS", startDate, endDate, country);
@@ -28,7 +31,6 @@ public class AnalysisEight implements AnalysisInterface{
 		TimeSeries series2 = new TimeSeries("Current health expenditure (% of GDP)"); 
 		GetData health_exp = new GetData("SH.XPD.CHEX.GD.ZS", startDate, endDate, country);
 		health_exp.fetchData();
-		
 		
 		for(int i = govt_exp_edu.year.size()-1; i > 1; i--) {
 	        
@@ -40,11 +42,13 @@ public class AnalysisEight implements AnalysisInterface{
 	            continue;
 	        }
 	        else {
-	        series1.add(new Year(govt_exp_edu.year.get(i)), percentChange);
+	        	series1.add(new Year(govt_exp_edu.year.get(i)), percentChange);
+				this.dataReport.add("Government education expidenture % change: " + govt_exp_edu.year.get(i) + " => " + percentChange);
 	        }
 	        System.out.println(percentChange);
 		}
 		this.dataset.addSeries(series1);
+		this.dataReport.add("\n");
 		
 		
 		for(int i = health_exp.year.size()-1; i > 1; i--) {
@@ -57,11 +61,13 @@ public class AnalysisEight implements AnalysisInterface{
 	            continue;
 	        }
 	        else {
-	        series2.add(new Year(health_exp.year.get(i)), percentChange);
+	        	series2.add(new Year(health_exp.year.get(i)), percentChange);
+	        	this.dataReport.add("Current health expidenture % change: " + health_exp.year.get(i) + " => " + percentChange);
 	        }
 
 		}
 		this.dataset.addSeries(series2);
+		this.dataReport.add("\n");
 	}
 	
 	@Override
@@ -75,6 +81,12 @@ public class AnalysisEight implements AnalysisInterface{
 
 	public void updateCharts(boolean[] charts) {
 		this.charts = charts;
+	}
+
+	@Override
+	public ArrayList<String> getReport() {
+		// TODO Auto-generated method stub
+		return this.dataReport;
 	}
 	
 }
