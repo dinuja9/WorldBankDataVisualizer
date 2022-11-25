@@ -2,6 +2,7 @@ package statsVisualiser.gui;
 
 import java.awt.Color;
 import java.awt.Dimension;
+import java.util.ArrayList;
 
 import javax.swing.BorderFactory;
 import javax.swing.JPanel;
@@ -36,7 +37,7 @@ public class RenderPie implements RenderInterface {
 		ChartPanel chartPanel = new ChartPanel(pieChart);
 		chartPanel.setPreferredSize(new Dimension(400, 300));
 		chartPanel.setBorder(BorderFactory.createEmptyBorder(15, 15, 15, 15));
-		chartPanel.setBackground(Color.white);
+		chartPanel.setBackground(Color.CYAN);
 		this.west.add(chartPanel);
 
 	}

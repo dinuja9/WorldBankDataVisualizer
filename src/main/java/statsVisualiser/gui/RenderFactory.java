@@ -1,12 +1,11 @@
 package statsVisualiser.gui;
 
+import java.util.ArrayList;
 import javax.swing.JPanel;
-
-import org.jfree.data.time.TimeSeriesCollection;
 
 public class RenderFactory {
 	
-	public RenderInterface createChart(String chartType, Object dataset, JPanel west, String analysisType) {
+	public RenderInterface createChart(String chartType, Object dataset, JPanel west, String analysisType, ArrayList<String> dataReport) {
 		if(chartType.equals("Line Chart")) {
 			return new RenderLine(dataset, west, analysisType);
 		}
@@ -20,7 +19,7 @@ public class RenderFactory {
 			return new RenderBar(dataset, west, analysisType);
 		}
 		else {
-			return new RenderReport(dataset, west, analysisType);
+			return new RenderReport(west, analysisType, dataReport);
 		}
 	}
 }
