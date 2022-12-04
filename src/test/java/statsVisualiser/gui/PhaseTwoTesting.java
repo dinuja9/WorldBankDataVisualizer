@@ -117,7 +117,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void WorldBankApiCallerTest10() {
 		ApiFactory factory = new ApiFactory();
-		ApiCaller api = factory.createAPI(2015, 2020, "AGO", "SE.XPD.TOTL.GD.ZS");
+		ApiCaller api = factory.createAPI(2015, 2020, "AGO", "SE.XPD.TOTL.GD.ZS","World Bank");
 		api.callAPI();
 		ArrayList<Double> report = api.getValueOfYear();
 		assertEquals(new BigDecimal(2.0), new BigDecimal(report.get(0)));
@@ -131,7 +131,7 @@ public class PhaseTwoTesting {
 	public void GetDataTest11() {
 		GetData data = new GetData("", 2015, 2020, "AGO");
 		exception.expect(IndexOutOfBoundsException.class);
-		data.fetchData();
+		data.fetchData("World Bank");
 	}
 
 	// TEST API FACTORY TO DETERMINE WHETHER THE CORRECT OBJECT TYPE WAS RETURNED
@@ -139,7 +139,7 @@ public class PhaseTwoTesting {
 	public void ApiFactoryTest12() {
 		boolean type = false;
 		ApiFactory factory = new ApiFactory();
-		ApiCaller api = factory.createAPI(2015, 2020, "AGO", "SE.XPD.TOTL.GD.ZS");
+		ApiCaller api = factory.createAPI(2015, 2020, "AGO", "SE.XPD.TOTL.GD.ZS","World Bank");
 		type = api instanceof WorldBankApiCaller;
 		assertTrue(type);
 	}

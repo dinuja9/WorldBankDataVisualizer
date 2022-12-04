@@ -52,7 +52,7 @@ public class AnalysisFour implements AnalysisInterface {
 		this.dataReport = new ArrayList<String>();
 
 		GetData forestArea = new GetData("AG.LND.FRST.ZS", startDate - 1, endDate, country);
-		forestArea.fetchData();
+		forestArea.fetchData("World Bank");
 
 		// ADDING THE DATA ON THE DATASET FOR SERIES 1
 		// Average = (Sum of all years forest area percentages)/number of years

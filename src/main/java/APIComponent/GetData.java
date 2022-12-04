@@ -41,9 +41,9 @@ public class GetData {
 	 * Makes a call to the WorldBankApiCaller, which then sets the year array and
 	 * the valueOfYear array in this class with the data that was fetched.
 	 */
-	public void fetchData() {
+	public void fetchData(String apiType) {
 		ApiFactory factory = new ApiFactory();
-		ApiCaller api = factory.createAPI(this.startDate, this.endDate, this.country, this.analysis);
+		ApiCaller api = factory.createAPI(this.startDate, this.endDate, this.country, this.analysis, apiType);
 		api.callAPI();
 		this.year = api.getYear();
 		this.valueOfYear = api.getValueOfYear();

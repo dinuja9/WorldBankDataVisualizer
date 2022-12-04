@@ -52,7 +52,7 @@ public class AnalysisFive implements AnalysisInterface {
 		this.dataset = new DefaultCategoryDataset();
 		this.dataReport = new ArrayList<String>();
 		GetData expenditure = new GetData("SE.XPD.TOTL.GD.ZS", startDate, endDate, country);
-		expenditure.fetchData();
+		expenditure.fetchData("World Bank");
 
 		double education = 0.0;
 		double sum = 0.0;

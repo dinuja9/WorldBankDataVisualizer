@@ -54,11 +54,11 @@ public class AnalysisEight implements AnalysisInterface {
 
 		TimeSeries series1 = new TimeSeries("Government expenditure on education, total (% of GDP)");
 		GetData govt_exp_edu = new GetData("SE.XPD.TOTL.GD.ZS", startDate, endDate, country);
-		govt_exp_edu.fetchData();
+		govt_exp_edu.fetchData("World Bank");
 
 		TimeSeries series2 = new TimeSeries("Current health expenditure (% of GDP)");
 		GetData health_exp = new GetData("SH.XPD.CHEX.GD.ZS", startDate, endDate, country);
-		health_exp.fetchData();
+		health_exp.fetchData("World Bank");
 
 		for (int i = govt_exp_edu.year.size() - 1; i > 1; i--) {
 

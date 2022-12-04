@@ -21,8 +21,10 @@ public class ApiFactory {
 	 * @param analysis
 	 * @return a new WorldBankApiCaller object
 	 */
-	public ApiCaller createAPI(int startDate, int endDate, String country, String analysis) {
-		api = new WorldBankApiCaller(startDate, endDate, country, analysis);
+	public ApiCaller createAPI(int startDate, int endDate, String country, String analysis, String apiType) {
+		if(apiType.equals("World Bank")) {
+			api = new WorldBankApiCaller(startDate, endDate, country, analysis);
+		}
 		return api;
 	}
 

@@ -55,8 +55,8 @@ public class AnalysisSix implements AnalysisInterface {
 		TimeSeries series1 = new TimeSeries("Hospital Beds vs Health Expenditure");
 		GetData beds = new GetData("SH.MED.BEDS.ZS", 2001, 2020, "can");
 		GetData health = new GetData("SH.XPD.CHEX.PC.CD", 2001, 2020, "can");
-		beds.fetchData();
-		health.fetchData();
+		beds.fetchData("World Bank");
+		health.fetchData("World Bank");
 		double hSpent = 0.0;
 
 		for (int i = 0; i < beds.valueOfYear.size(); i++) {

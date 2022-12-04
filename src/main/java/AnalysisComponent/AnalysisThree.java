@@ -54,9 +54,9 @@ public class AnalysisThree implements AnalysisInterface {
 
 		TimeSeries series1 = new TimeSeries("Annual % change of CO2 emissions");
 		GetData CO2Emissions = new GetData("EN.ATM.CO2E.PC", startDate, endDate, country);
-		CO2Emissions.fetchData();
+		CO2Emissions.fetchData("World Bank");
 		GetData GDP = new GetData("NY.GDP.PCAP.CD", startDate, endDate, country);
-		GDP.fetchData();
+		GDP.fetchData("World Bank");
 
 		for (int i = CO2Emissions.year.size() - 1; i > 1; i--) {
 			if (Double.isNaN(CO2Emissions.valueOfYear.get(i))) {

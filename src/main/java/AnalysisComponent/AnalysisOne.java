@@ -54,15 +54,15 @@ public class AnalysisOne implements AnalysisInterface {
 
 		TimeSeries series1 = new TimeSeries("Annual % change of CO2 emissions");
 		GetData CO2Emissions = new GetData("EN.ATM.CO2E.PC", startDate - 1, endDate, country);
-		CO2Emissions.fetchData();
+		CO2Emissions.fetchData("World Bank");
 
 		TimeSeries series2 = new TimeSeries("Annual % change of energy use");
 		GetData NRG = new GetData("EG.USE.PCAP.KG.OE", startDate - 1, endDate, country);
-		NRG.fetchData();
+		NRG.fetchData("World Bank");
 
 		TimeSeries series3 = new TimeSeries("Annual % change of PM2.5 air pollution");
 		GetData airPolution = new GetData("EN.ATM.PM25.MC.M3", startDate - 1, endDate, country);
-		airPolution.fetchData();
+		airPolution.fetchData("World Bank");
 
 		// ADDING THE DATA ON THE DATASET FOR SERIES 1 TO 3
 		// percent change = (CurrentYearValue - LastYearValue)/LastYearValue * 100

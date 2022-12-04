@@ -54,11 +54,11 @@ public class AnalysisSeven implements AnalysisInterface {
 
 		TimeSeries series1 = new TimeSeries("Women Problems in Accessing Healthcare");
 		GetData women_healthcare = new GetData("SH.ACS.MONY.Q1.ZS", startDate, endDate, country);
-		women_healthcare.fetchData();
+		women_healthcare.fetchData("World Bank");
 
 		TimeSeries series2 = new TimeSeries("Infant Mortality Rate");
 		GetData infant_mortality = new GetData("SP.DYN.IMRT.IN", startDate, endDate, country);
-		infant_mortality.fetchData();
+		infant_mortality.fetchData("World Bank");
 
 		for (int i = women_healthcare.year.size() - 1; i > 1; i--) {
 			if (Double.isNaN(women_healthcare.valueOfYear.get(i))) {

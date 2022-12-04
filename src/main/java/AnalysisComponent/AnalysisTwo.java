@@ -53,11 +53,11 @@ public class AnalysisTwo implements AnalysisInterface {
 
 		TimeSeries series1 = new TimeSeries("Annual % change of PM2.5 air pollution");
 		GetData airPolution = new GetData("EN.ATM.PM25.MC.M3", (startDate) - 1, endDate, country);
-		airPolution.fetchData();
+		airPolution.fetchData("World Bank");
 
 		TimeSeries series2 = new TimeSeries("Annual % change of forest area");
 		GetData forestArea = new GetData("AG.LND.FRST.ZS", (startDate) - 1, endDate, country);
-		forestArea.fetchData();
+		forestArea.fetchData("World Bank");
 
 		// ADDING THE DATA ON THE DATASET FOR SERIES 1 AND 2
 		// percent change = (CurrentYearValue - LastYearValue)/LastYearValue * 100
