@@ -45,11 +45,13 @@ public class MainUI extends JFrame implements ActionListener {
 
 	private static final long serialVersionUID = 1L;
 	private static MainUI instance;
-	public RecalculateInterface recButton;
+	private RecalculateInterface recButton;
 	private JPanel west;
-	public boolean systemView = false;
-	public static JFrame frame;
-	public ObserverInterface observer;
+	private boolean systemView = false;
+	private static JFrame frame;
+	private ObserverInterface observer;
+	private Vector<String> countriesNames;
+	private Vector<String> methodsNames;
 
 	/*
 	 * @throws IOException
@@ -65,7 +67,7 @@ public class MainUI extends JFrame implements ActionListener {
 		 ************************************************************************************/
 		// ADD ALL COUNTRIES IN WORLD BANK API
 		JLabel chooseCountryLabel = new JLabel("Choose a country: ");
-		Vector<String> countriesNames = new Vector<String>();
+		countriesNames = new Vector<String>();
 		HashMap<String, String> worldBankCountries = new HashMap<String, String>();
 
 		try {
@@ -154,7 +156,7 @@ public class MainUI extends JFrame implements ActionListener {
 		// CREATE THE ANALYSIS DROP DOWN LIST
 		JLabel methodLabel = new JLabel("        Choose analysis method: ");
 
-		Vector<String> methodsNames = new Vector<String>();
+		methodsNames = new Vector<String>();
 		// OPEN CLOSE PRINCIPLE FOR ANALYSIS IS SATIFIED
 		JSONArray allAnalysis = new JSONArray();
 		JSONParser parseAnalysis = new JSONParser();
@@ -231,20 +233,18 @@ public class MainUI extends JFrame implements ActionListener {
 	/**
 	 * Draws time series chart to frame.
 	 * 
-	 * @param west is the destination panel
+	 * @param west      is the destination panel
 	 * @param chart
 	 * @param analysis
 	 * @param endDate
 	 * @param startDate
 	 * @param country
 	 */
-	private void createTimeSeries(String country, int startDate, int endDate, String analysisType, String chartType,
-			boolean systemView) {
-
+	public void createGraph(String country, int startDate, int endDate, String analysisType) {
 		if (startDate >= endDate) {
 			JOptionPane.showMessageDialog(null, "Start date must be less than end date!");
 		} else {
-			AnalysisGraph graph = new AnalysisGraph(analysisType, chartType);
+			AnalysisGraph graph = new AnalysisGraph(analysisType);
 			ArrayList<AnalysisInterface> viewListTemp = observer.getViewList();
 			AnalysisInterface slectedAnalysis = null;
 			for (int i = 0; i < viewListTemp.size(); i++) {
@@ -256,7 +256,7 @@ public class MainUI extends JFrame implements ActionListener {
 			this.west.removeAll();
 			this.west.revalidate();
 			this.west.repaint();
-			graph.executeStrategy(this.west, country, startDate, endDate, chartType, systemView);
+			graph.executeStrategy(this.west, country, startDate, endDate);
 		}
 	}
 
@@ -287,8 +287,8 @@ public class MainUI extends JFrame implements ActionListener {
 					|| recButton.getAnalysis() == "" || recButton.getChart() == "") {
 				JOptionPane.showMessageDialog(null, "Please select everything needed to perform analysis!");
 			} else {
-				createTimeSeries(recButton.getCountryCode(), recButton.getStartDate(), recButton.getEndDate(),
-						recButton.getAnalysis(), recButton.getChart(), systemView);
+				createGraph(recButton.getCountryCode(), recButton.getStartDate(), recButton.getEndDate(),
+						recButton.getAnalysis());
 				frame.pack();
 			}
 		}
@@ -356,4 +356,24 @@ public class MainUI extends JFrame implements ActionListener {
 		}
 	}
 
+	public void packFrame() {
+		frame.pack();
+	}
+
+// THE FOLLOWING METHODS WERE CREATED FOR TESTING PURPOSES
+	public Vector<String> getCountriesNames() {
+		return this.countriesNames;
+	}
+
+	public Vector<String> getMethodsNames() {
+		return this.methodsNames;
+	}
+
+	public ObserverInterface getViewObserver() {
+		return this.observer;
+	}
+
+	public void setViewObserver(ObserverInterface observer) {
+		this.observer = observer;
+	}
 }

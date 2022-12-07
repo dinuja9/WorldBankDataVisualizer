@@ -48,7 +48,7 @@ public class AnalysisSix implements AnalysisInterface {
 	 * @param endDate
 	 * @param chartType
 	 */
-	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType) {
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate) {
 		this.dataset = new TimeSeriesCollection();
 		this.dataReport = new ArrayList<String>();
 

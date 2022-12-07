@@ -17,7 +17,7 @@ import javax.swing.JPanel;
  */
 
 public interface AnalysisInterface {
-	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType);
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate);
 	public Object getDataSet();
 	public ArrayList<String> getReport();
 	public String getName();

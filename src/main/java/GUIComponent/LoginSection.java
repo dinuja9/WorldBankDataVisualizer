@@ -77,7 +77,7 @@ public class LoginSection extends JPanel implements ActionListener, Component {
 	 * order to validate the credentials that were inputed.
 	 */
 	public void actionPerformed(ActionEvent e) {
-		this.mediator.login(this.LFrame);
+		this.mediator.login(LFrame);
 	}
 	/**
 	 * sets the mediator

@@ -22,16 +22,14 @@ public class AnalysisGraph {
 	private AnalysisInterface analysis;
 	private RenderInterface render;
 	public String analysisType = "";
-	public String chartType = "";
 
 	/**
 	 * Sets the graph with the type of analysis and graph.
 	 * @param analysisType
 	 * @param chartType
 	 */
-	public AnalysisGraph(String analysisType, String chartType) {
+	public AnalysisGraph(String analysisType) {
 		this.analysisType = analysisType;
-		this.chartType = chartType;
 	}
 
 	/**
@@ -55,11 +53,9 @@ public class AnalysisGraph {
 	 * @param systemView
 	 * @throws exception if the graph is inappropriate for the type of analysis.
 	 */
-	public void executeStrategy(JPanel west, String country, int startDate, int endDate, String chartType,
-			boolean systemView) {
-		this.analysis.performAnalysis(west, country, startDate, endDate, chartType);
+	public void executeStrategy(JPanel west, String country, int startDate, int endDate) {
+		this.analysis.performAnalysis(west, country, startDate, endDate);
 		HashMap<String, Boolean> chartSystemViewer = this.analysis.getChartSystemView();
-
 		for (String keys : chartSystemViewer.keySet()) {
 			if (chartSystemViewer.get(keys) == true) {
 				try {

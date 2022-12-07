@@ -47,7 +47,7 @@ public class AnalysisFour implements AnalysisInterface {
 	 * @param endDate
 	 * @param chartType
 	 */
-	public void performAnalysis(JPanel west, String country, int startDate, int endDate, String chartType) {
+	public void performAnalysis(JPanel west, String country, int startDate, int endDate) {
 		this.dataset = new DefaultCategoryDataset();
 		this.dataReport = new ArrayList<String>();
 

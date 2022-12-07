@@ -41,7 +41,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisOneTest1() {
 		AnalysisOne analysis = new AnalysisOne();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("CO2 emissions % change: 2015 => 0.0", report.get(0));
 	}
@@ -49,7 +49,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisTwoTest2() {
 		AnalysisTwo analysis = new AnalysisTwo();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("air pollution % change: 2016 => -3.125", report.get(0));
 	}
@@ -57,7 +57,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisThreeTest3() {
 		AnalysisThree analysis = new AnalysisThree();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("CO2 emissions/GDP per capita: 2015 => 3.197953309881676E-4", report.get(0));
 	}
@@ -65,7 +65,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisFourTest4() {
 		AnalysisFour analysis = new AnalysisFour();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("Forest area average: 54.285714285714285\n", report.get(0));
 	}
@@ -73,7 +73,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisFiveTest5() {
 		AnalysisFive analysis = new AnalysisFive();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("Education expenditure: 2.0\n", report.get(0));
 	}
@@ -81,7 +81,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisSixTest6() {
 		AnalysisSix analysis = new AnalysisSix();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("health expidenture/hospital beds: 2019 => 2.524", report.get(0));
 	}
@@ -89,7 +89,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisSevenTest7() {
 		AnalysisSeven analysis = new AnalysisSeven();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("Women problems in accessing healthcare: 2015 => 0.0", report.get(0));
 	}
@@ -97,7 +97,7 @@ public class PhaseTwoTesting {
 	@Test
 	public void performAnalysisEightTest8() {
 		AnalysisEight analysis = new AnalysisEight();
-		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020, "Report");
+		analysis.performAnalysis(new JPanel(), "AGO", 2015, 2020);
 		ArrayList<String> report = analysis.getReport();
 		assertEquals("Government education expidenture % change: 2015 => 50.0", report.get(0));
 	}
@@ -147,7 +147,7 @@ public class PhaseTwoTesting {
 	// TEST THE LOGINCHECKER TO SEE IF THE CORRECT USERNAME AND PASSWORD WAS ENTERED
 	@Test
 	public void LoginCheckerTest13() throws IOException, Exception {
-		LoginChecker check = new LoginChecker("user", "12345");
+		LoginChecker check = new LoginChecker("us3r", "12345");
 		boolean value = check.checker();
 		assertTrue(value);
 	}
